@@ -432,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
                 rb_learn.setEnabled(false);
                 rb_practice.setEnabled(false);
                 vv_record.setVideoURI(Uri.parse(returnedURI));
+                vv_record.start();
                 int try_number = sharedPreferences.getInt("record_"+sp_words.getSelectedItem().toString(),0);
                 try_number++;
                 String toAdd  = sp_words.getSelectedItem().toString()+"_"+try_number+"_"+time_started_return + "";
@@ -444,7 +445,6 @@ public class MainActivity extends AppCompatActivity {
                 if(rb_practice.isChecked()) {
                     vv_video_learn.setVisibility(View.VISIBLE);
                     vv_video_learn.start();
-                    vv_record.start();
                 }
                 else {
                     vv_video_learn.setVisibility(View.GONE);
