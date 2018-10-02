@@ -42,6 +42,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -126,9 +128,15 @@ public class MainActivity extends AppCompatActivity {
                     vv_video_learn.setVisibility(View.VISIBLE);
                     vv_video_learn.start();
                     time_started = System.currentTimeMillis();
+                    sp_words.setEnabled(true);
+                    sp_ip_address.setEnabled(true);
                 } else if ( checkedId==rb_practice.getId()) {
                     Toast.makeText(getApplicationContext(),"Practice",Toast.LENGTH_SHORT).show();
                     vv_video_learn.setVisibility(View.GONE);
+                    int randomVal = (int)(Math.random() * 25);
+                    sp_words.setSelection(randomVal);
+                    sp_words.setEnabled(false);
+                    sp_ip_address.setEnabled(false);
                 }
             }
         });
