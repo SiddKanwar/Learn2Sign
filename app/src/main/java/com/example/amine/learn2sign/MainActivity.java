@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     vv_video_learn.setVisibility(View.GONE);
                     int randomVal = (int)(Math.random() * 25);
                     sp_words.setSelection(randomVal);
+                    //sp_words.setMinimumHeight(50);
                     sp_words.setEnabled(false);
                     sp_ip_address.setEnabled(false);
                 }
@@ -438,8 +439,16 @@ public class MainActivity extends AppCompatActivity {
                 set.add(toAdd);
                 sharedPreferences.edit().putStringSet("RECORDED",set).apply();
                 sharedPreferences.edit().putInt("record_"+sp_words.getSelectedItem().toString(), try_number).apply();
-
-                vv_video_learn.start();
+                //find a way to know which radio button is checked and then set this to true or false
+                //it should be visible for practice and invisible for learn module
+                if(rb_practice.isChecked()) {
+                    vv_video_learn.setVisibility(View.VISIBLE);
+                    vv_video_learn.start();
+                    vv_record.start();
+                }
+                else {
+                    vv_video_learn.setVisibility(View.GONE);
+                }
             }
 
         }

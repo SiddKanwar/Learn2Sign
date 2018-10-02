@@ -76,9 +76,9 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
             }
 
         } else {
-            viewHolder.vv_video.setVisibility(View.GONE);
-            viewHolder.cb_check.setVisibility(View.GONE);
-            viewHolder.tv_title.setVisibility(View.GONE);
+            //viewHolder.vv_video.setVisibility(View.GONE);
+            //viewHolder.cb_check.setVisibility(View.GONE);
+            //viewHolder.tv_title.setVisibility(View.GONE);
         }
 
 
@@ -112,16 +112,16 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
             vv_video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                   if(videos[position]==null)
-                   {
-                       vv_video.setVisibility(View.GONE);
-                       cb_check.setVisibility(View.GONE);
-                       tv_title.setVisibility(View.GONE);
-                   } else {
+                   //if(videos[position]==null)
+                   //{
+                   //    vv_video.setVisibility(View.GONE);
+                   //    cb_check.setVisibility(View.GONE);
+                   //    tv_title.setVisibility(View.GONE);
+                   //} else {
 
                        vv_video.start();
                    }
-                }
+               // }
             });
             vv_video.setOnClickListener(new View.OnClickListener() {
                 @Override
