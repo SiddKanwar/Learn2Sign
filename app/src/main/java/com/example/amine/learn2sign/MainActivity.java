@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
         sp_words.setEnabled(true);
 
         rb_learn.setEnabled(true);
-        //rb_practice.setEnabled(true);
+        rb_practice.setEnabled(true);
         time_started = System.currentTimeMillis();
 
 
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
             bt_record.setVisibility(View.VISIBLE);
             sp_words.setEnabled(true);
             rb_learn.setEnabled(true);
-            //rb_practice.setEnabled(true);
+            rb_practice.setEnabled(true);
             sp_ip_address.setEnabled(true);
 
 
@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
                 bt_cancel.setVisibility(View.VISIBLE);
                 sp_words.setEnabled(false);
                 rb_learn.setEnabled(false);
-                //rb_practice.setEnabled(false);
+                rb_practice.setEnabled(false);
                 vv_record.setVideoURI(Uri.parse(returnedURI));
                 int try_number = sharedPreferences.getInt("record_"+sp_words.getSelectedItem().toString(),0);
                 try_number++;
