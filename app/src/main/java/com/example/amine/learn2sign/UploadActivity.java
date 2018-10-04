@@ -173,8 +173,6 @@ public class UploadActivity extends AppCompatActivity {
                         uploadFile.execute(uploadListAdapter.getVideos()[i].getPath());*/
 
                 }
-
-
             default:
                 return super.onOptionsItemSelected(item);
         }

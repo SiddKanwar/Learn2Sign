@@ -26,9 +26,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -98,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ll_after_record)
     LinearLayout ll_after_record;
 
+    @BindView(R.id.ratingText)
+    TextView ratingText;
+
     String path;
     String returnedURI;
     String old_text = "";
@@ -105,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     long time_started = 0;
     long time_started_return = 0;
     Activity mainActivity;
+    SeekBar ratingSeek;
+    int rating_val = 0;
 
 
     @Override
@@ -119,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         rb_learn.setChecked(true);
         bt_cancel.setVisibility(View.GONE);
         bt_send.setVisibility(View.GONE);
+
         rg_practice_learn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -206,6 +215,30 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"Already Logged In",Toast.LENGTH_SHORT).show();
 
         }
+
+        ratingSeek = (SeekBar) findViewById(R.id.ratingBar); // initiate the progress bar
+        ratingSeek.setVisibility(View.GONE);
+        ratingText.setVisibility(View.GONE);
+        ratingSeek.setMax(10); // 200 maximum value for the Seek bar
+        ratingSeek.setProgress(0); // 50 default progress value
+
+        ratingSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                ratingText.setText("Rating:" + i);
+                rating_val = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -390,6 +423,8 @@ public class MainActivity extends AppCompatActivity {
         bt_record.setVisibility(View.VISIBLE);
         bt_send.setVisibility(View.GONE);
         bt_cancel.setVisibility(View.GONE);
+        ratingSeek.setVisibility(View.GONE);
+        ratingText.setVisibility(View.GONE);
 
         sp_words.setEnabled(true);
 
@@ -399,6 +434,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
     @Override
@@ -428,6 +465,8 @@ public class MainActivity extends AppCompatActivity {
                 bt_record.setVisibility(View.GONE);
                 bt_send.setVisibility(View.VISIBLE);
                 bt_cancel.setVisibility(View.VISIBLE);
+                ratingSeek.setVisibility(View.VISIBLE);
+                ratingText.setVisibility(View.VISIBLE);
                 sp_words.setEnabled(false);
                 rb_learn.setEnabled(false);
                 rb_practice.setEnabled(false);
