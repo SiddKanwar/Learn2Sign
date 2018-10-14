@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
         ratingText.setVisibility(View.GONE);
         finish();
         super.onBackPressed();
+
     }
 
     @Override
@@ -418,6 +419,9 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"Send to Server",Toast.LENGTH_SHORT).show();
         Intent t = new Intent(this,UploadActivity.class);
         startActivityForResult(t,2000);
+        ratingSeek.setVisibility(View.GONE);
+        ratingText.setVisibility(View.GONE);
+
     }
 
     @OnClick(R.id.bt_cancel)
