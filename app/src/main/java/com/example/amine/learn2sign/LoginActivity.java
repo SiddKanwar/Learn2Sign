@@ -75,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.bt_login)
     public void login() {
 
+        HashSet<String> buttonClickSet = (HashSet<String>) sharedPreferences.getStringSet("LOGIN_BUTTON_CLICK", new HashSet<String>());
+        buttonClickSet.add("LOGIN_BUTTON_CLICK_" + id + "_" + email + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("LOGIN_BUTTON_CLICK", buttonClickSet).apply();
 
         if( ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)

@@ -5,6 +5,7 @@ import java.security.Policy;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Timer;
 
@@ -30,6 +31,7 @@ import android.widget.TextView;
 
 import com.facebook.stetho.common.LogUtil;
 
+import static com.example.amine.learn2sign.LoginActivity.INTENT_EMAIL;
 import static com.example.amine.learn2sign.LoginActivity.INTENT_ID;
 import static com.example.amine.learn2sign.LoginActivity.INTENT_TIME_WATCHED;
 import static com.example.amine.learn2sign.LoginActivity.INTENT_TIME_WATCHED_VIDEO;
@@ -108,6 +110,10 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
             @Override
             // toggle video recording
             public void onClick(final View v) {
+                HashSet<String> buttonClickSet = (HashSet<String>) sharedPreferences.getStringSet("START_STOP_BUTTON_CLICK", new HashSet<String>());
+                buttonClickSet.add("START_STOP_BUTTON_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("START_STOP_BUTTON_CLICK", buttonClickSet).apply();
+
                 timer = new CountDownTimer(5000, 1000) {
                     public void onTick(long millisUntilFinished) {
                         int a = (int) (millisUntilFinished / 1000);
@@ -246,6 +252,10 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
 
     @Override
     public void onBackPressed() {
+        HashSet<String> backCLickSet = (HashSet<String>) sharedPreferences.getStringSet("BACK_CLICK", new HashSet<String>());
+        backCLickSet.add("BACK_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("BACK_CLICK", backCLickSet).apply();
+
         if(timer!=null)
             timer.cancel();
         if(time!=null)

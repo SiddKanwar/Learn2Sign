@@ -132,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                HashSet<String> radioButtonClickSet = (HashSet<String>) sharedPreferences.getStringSet("RADIO_BUTTON_CLICK", new HashSet<String>());
+                radioButtonClickSet.add("RADIO_BUTTON_CLICK_" + checkedId + "_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("RADIO_BUTTON_CLICK", radioButtonClickSet).apply();
+
                 if(checkedId==rb_learn.getId()) {
                     sharedPreferences.edit().putString("mode","learn").apply();
                     Toast.makeText(getApplicationContext(),"Learn",Toast.LENGTH_SHORT).show();
@@ -156,6 +160,10 @@ public class MainActivity extends AppCompatActivity {
         sp_words.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                HashSet<String> wordsDropdownSet = (HashSet<String>) sharedPreferences.getStringSet("WORDS_DROPDOWN_CLICK", new HashSet<String>());
+                wordsDropdownSet.add("WORDS_DROPDOWN_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("WORDS_DROPDOWN_CLICK", wordsDropdownSet).apply();
+
                 String text = sp_words.getSelectedItem().toString();
                 if(!old_text.equals(text)) {
                     path = "";
@@ -173,6 +181,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 sharedPreferences.edit().putString(INTENT_SERVER_ADDRESS, sp_ip_address.getSelectedItem().toString()).apply();
+
+                HashSet<String> ipsDropdownSet = (HashSet<String>) sharedPreferences.getStringSet("IPS_DROPDOWN_CLICK", new HashSet<String>());
+                ipsDropdownSet.add("IPS_DROPDOWN_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("IPS_DROPDOWN_CLICK", ipsDropdownSet).apply();
             }
 
             @Override
@@ -196,12 +208,20 @@ public class MainActivity extends AppCompatActivity {
         vv_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HashSet<String> ipsDropdownSet = (HashSet<String>) sharedPreferences.getStringSet("VIDEO_PREVIEW_CLICK", new HashSet<String>());
+                ipsDropdownSet.add("VIDEO_PREVIEW_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("VIDEO_PREVIEW_CLICK", ipsDropdownSet).apply();
+
                 vv_record.start();
             }
         });
         vv_video_learn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HashSet<String> ipsDropdownSet = (HashSet<String>) sharedPreferences.getStringSet("VIDEO_PREVIEW_CLICK", new HashSet<String>());
+                ipsDropdownSet.add("VIDEO_PREVIEW_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("VIDEO_PREVIEW_CLICK", ipsDropdownSet).apply();
+
                 if(!vv_video_learn.isPlaying()) {
                     vv_video_learn.start();
                 }
@@ -228,6 +248,10 @@ public class MainActivity extends AppCompatActivity {
         ratingSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                HashSet<String> ratingBarSet = (HashSet<String>) sharedPreferences.getStringSet("RATING_BAR_CLICK", new HashSet<String>());
+                ratingBarSet.add("RATING_BAR_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+                sharedPreferences.edit().putStringSet("RATING_BAR_CLICK", ratingBarSet).apply();
+
                 ratingText.setText("Rating:" + i);
                 rating_val = i;
                 sharedPreferences.edit().putInt("rating",rating_val).apply();
@@ -247,6 +271,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        HashSet<String> backCLickSet = (HashSet<String>) sharedPreferences.getStringSet("BACK_CLICK", new HashSet<String>());
+        backCLickSet.add("BACK_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("BACK_CLICK", backCLickSet).apply();
+
         moveTaskToBack(true);
         ratingSeek.setVisibility(View.GONE);
         ratingText.setVisibility(View.GONE);
@@ -328,7 +356,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.bt_record)
     public void record_video() {
 
-
+        HashSet<String> buttonClickSet = (HashSet<String>) sharedPreferences.getStringSet("RECORD_BUTTON_CLICK", new HashSet<String>());
+        buttonClickSet.add("RECORD_BUTTON_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("RECORD_BUTTON_CLICK", buttonClickSet).apply();
 
          if( ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -416,6 +446,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.bt_send)
     public void sendToServer() {
+        HashSet<String> buttonClickSet = (HashSet<String>) sharedPreferences.getStringSet("SEND_BUTTON_CLICK", new HashSet<String>());
+        buttonClickSet.add("SEND_BUTTON_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("SEND_BUTTON_CLICK", buttonClickSet).apply();
+
         Toast.makeText(this,"Send to Server",Toast.LENGTH_SHORT).show();
         Intent t = new Intent(this,UploadActivity.class);
         startActivityForResult(t,2000);
@@ -426,6 +460,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.bt_cancel)
     public void cancel() {
+        HashSet<String> buttonClickSet = (HashSet<String>) sharedPreferences.getStringSet("CANCEL_BUTTON_CLICK", new HashSet<String>());
+        buttonClickSet.add("CANCEL_BUTTON_CLICK_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("CANCEL_BUTTON_CLICK", buttonClickSet).apply();
+
         vv_record.setVisibility(View.GONE);
         if(rb_learn.isSelected()) {
             vv_video_learn.setVisibility(View.VISIBLE);
@@ -566,6 +604,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
+        HashSet<String> menuClickSet = (HashSet<String>) sharedPreferences.getStringSet("MENU_CLICK", new HashSet<String>());
+        menuClickSet.add("MENU_CLICK_" + item.getItemId() + "_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("MENU_CLICK", menuClickSet).apply();
 
         //respond to menu item selection
         switch (item.getItemId()) {

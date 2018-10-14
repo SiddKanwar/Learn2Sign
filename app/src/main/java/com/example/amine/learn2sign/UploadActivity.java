@@ -36,12 +36,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 
+import static com.example.amine.learn2sign.LoginActivity.INTENT_EMAIL;
 import static com.example.amine.learn2sign.LoginActivity.INTENT_ID;
 import static com.example.amine.learn2sign.LoginActivity.INTENT_SERVER_ADDRESS;
 
@@ -104,6 +106,10 @@ public class UploadActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         String id = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE).getString(INTENT_ID,"00000000");
+
+        HashSet<String> menuClickSet = (HashSet<String>) sharedPreferences.getStringSet("MENU_CLICK", new HashSet<String>());
+        menuClickSet.add("MENU_CLICK_" + item.getItemId() + "_" + sharedPreferences.getString(INTENT_ID, "") + "_" + sharedPreferences.getString(INTENT_EMAIL, "") + "_" + String.valueOf(System.currentTimeMillis()));
+        sharedPreferences.edit().putStringSet("MENU_CLICK", menuClickSet).apply();
 
         //respond to menu item selection
         switch (item.getItemId()) {
