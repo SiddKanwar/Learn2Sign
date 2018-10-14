@@ -69,8 +69,6 @@ public class UploadActivity extends AppCompatActivity {
         sharedPreferences =  this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         File m = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign");
-        uploadListAdapter = new UploadListAdapter(m.listFiles(), this.getApplicationContext());
-        rv_videos.setAdapter(uploadListAdapter);
         if(m.exists()) {
             if(m.isDirectory()) {
                 File[] videos =  m.listFiles();
@@ -86,14 +84,16 @@ public class UploadActivity extends AppCompatActivity {
                         if(videos[i].renameTo(file2))
                             System.out.println("Rename successful");
 
-                        File[] toUpload = uploadListAdapter.getVideos();
-                        File file3 = new File(tmpName);
-                        if(toUpload[i].renameTo(file3))
-                            System.out.println("Rename successful");
+                        //File[] toUpload = uploadListAdapter.getVideos();
+                        //File file3 = new File(tmpName);
+                        //if(toUpload[i].renameTo(file3))
+                        //    System.out.println("Rename successful");
                     }
                 }
             }
         }
+        uploadListAdapter = new UploadListAdapter(m.listFiles(), this.getApplicationContext());
+        rv_videos.setAdapter(uploadListAdapter);
 
 
 
