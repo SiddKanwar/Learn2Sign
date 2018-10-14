@@ -26,6 +26,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,16 +67,32 @@ public class UploadActivity extends AppCompatActivity {
         sharedPreferences =  this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         File m = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign");
+        uploadListAdapter = new UploadListAdapter(m.listFiles(), this.getApplicationContext());
+        rv_videos.setAdapter(uploadListAdapter);
         if(m.exists()) {
             if(m.isDirectory()) {
                 File[] videos =  m.listFiles();
                 for(int i=0;i<videos.length;i++) {
                     Log.d("msg",videos[i].getPath());
+                    //final boolean[] checked = uploadListAdapter.getChecked();
+                    //rename file here as well
+                    if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("practice")) {
+                        String tempName = videos[i].getPath();
+                        int ii = tempName.lastIndexOf("_");
+                        String tmpName = tempName.substring(0,ii)+"_"+sharedPreferences.getInt("rating",10)+".mp4";
+                        File file2 = new File(tmpName);
+                        if(videos[i].renameTo(file2))
+                            System.out.println("Rename successful");
+
+                        File[] toUpload = uploadListAdapter.getVideos();
+                        File file3 = new File(tmpName);
+                        if(toUpload[i].renameTo(file3))
+                            System.out.println("Rename successful");
+                    }
                 }
             }
         }
-        uploadListAdapter = new UploadListAdapter(m.listFiles(), this.getApplicationContext());
-        rv_videos.setAdapter(uploadListAdapter);
+
 
 
     }
@@ -112,7 +130,14 @@ public class UploadActivity extends AppCompatActivity {
                         // send request
                         AsyncHttpClient client = new AsyncHttpClient();
                     final int finalI = i;
-                    client.post("http://"+server_ip +"/upload_video.php", params, new AsyncHttpResponseHandler() {
+                    String urlString="";
+                    if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("learn")) {
+                        urlString = "http://"+server_ip +"/upload_video.php";
+                    }
+                    else {
+                        urlString = "http://"+server_ip +"/upload_video_performance.php";
+                    }
+                    client.post(urlString, params, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
                                 // handle success response

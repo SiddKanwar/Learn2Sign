@@ -1,5 +1,6 @@
 package com.example.amine.learn2sign;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -23,12 +24,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import android.content.*;
+import android.content.pm.PackageManager;
+import android.os.*;
 import butterknife.ButterKnife;
 
 public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.ViewHolder>
 {
     private File[] videos;
+    //SharedPreferences sharedPreferences;
     Context context;
     private boolean[] checked;
     public UploadListAdapter(File[] videos, Context context){
@@ -45,6 +49,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
     public UploadListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View v = inflater.inflate(R.layout.row_layout, viewGroup, false);
+        //sharedPreferences =  this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -54,7 +59,6 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
     public void onBindViewHolder(@NonNull UploadListAdapter.ViewHolder viewHolder, int i) {
 
         if(videos[i]!=null) {
-
             viewHolder.position = i;
             Uri uri = Uri.parse(videos[i].getPath());
             viewHolder.vv_video.setVideoURI(uri);
@@ -62,6 +66,13 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
                 viewHolder.vv_video.start();
 
             String filename=videos[i].getPath().substring(videos[i].getPath().lastIndexOf("/")+1);
+            //check if the practice module is selected then change the last value to the rating selected from preferences
+//            if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("practice")) {
+//                //decide if
+//                String tempName = videos[videos.length - 1].getPath();
+//                int ii = tempName.lastIndexOf("_");
+//                filename = tempName.substring(0,ii)+sharedPreferences.getInt("rating",10)+".mp4";
+//            }
             viewHolder.tv_title.setText(filename);
             Log.e("msg",viewHolder.ischecked+"");
             if(checked[i]) {

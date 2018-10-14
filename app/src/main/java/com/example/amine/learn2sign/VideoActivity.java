@@ -49,6 +49,7 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
     String returnfile;
     VideoActivity activity;
     String word;
+    String groupName="team12";
     private boolean mInitSuccesful;
     SharedPreferences sharedPreferences;
     CountDownTimer timer;
@@ -91,6 +92,12 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
                 if(time!=null) {
                     time.cancel();
                 }
+                //rename file here as well
+//                if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("practice")) {
+//                    String tempName = returnfile;
+//                    int ii = tempName.lastIndexOf("_");
+//                    returnfile = tempName.substring(0,ii)+"_"+sharedPreferences.getInt("rating",10)+".mp4";
+//                }
                 returnIntent.putExtra(INTENT_URI,returnfile);
                 returnIntent.putExtra(INTENT_TIME_WATCHED_VIDEO , time_watched);
                 activity.setResult(8888,returnIntent);
@@ -125,6 +132,13 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
                     if(time!=null) {
                         time.cancel();
                     }
+                    //rename file here
+                    //rename file here as well
+//                    if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("practice")) {
+//                        String tempName = returnfile;
+//                        int ii = tempName.lastIndexOf("_");
+//                        returnfile = tempName.substring(0,ii)+sharedPreferences.getInt("rating",10)+".mp4";
+//                    }
                     returnIntent.putExtra(INTENT_URI,returnfile);
                     returnIntent.putExtra(INTENT_TIME_WATCHED_VIDEO , time_watched);
 
@@ -161,13 +175,21 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
         int i=0;
         SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.US);
         String format = s.format(new Date());
-        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign/"
-                + sharedPreferences.getString(INTENT_ID,"0000")+"_"+word+"_0_"+format  + ".mp4");
-        //just to be safe
-        while(file.exists()) {
-            i++;
+        File file;
+        //if practice mode then file name should be <group name>_<symbol>_<rating>.mp4
+        if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("learn")) {
             file = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign/"
-                    + sharedPreferences.getString(INTENT_ID,"0000")+"_"+word+"_"+i +"_"+format+ ".mp4");
+                    + sharedPreferences.getString(INTENT_ID, "0000") + "_" + word + "_0_" + format + ".mp4");
+            //just to be safe
+            while (file.exists()) {
+                i++;
+                file = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign/"
+                        + sharedPreferences.getString(INTENT_ID, "0000") + "_" + word + "_" + i + "_" + format + ".mp4");
+            }
+        }
+        else {
+            file = new File(Environment.getExternalStorageDirectory().getPath() + "/Learn2Sign/"
+                    + groupName + "_" + word + "_" +sharedPreferences.getInt("rating",10) +".mp4");
         }
 
         if(file.createNewFile()) {

@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==rb_learn.getId()) {
+                    sharedPreferences.edit().putString("mode","learn").apply();
                     Toast.makeText(getApplicationContext(),"Learn",Toast.LENGTH_SHORT).show();
                     vv_video_learn.setVisibility(View.VISIBLE);
                     vv_video_learn.start();
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     sp_words.setEnabled(true);
                     sp_ip_address.setEnabled(true);
                 } else if ( checkedId==rb_practice.getId()) {
+                    sharedPreferences.edit().putString("mode","practice").apply();
                     Toast.makeText(getApplicationContext(),"Practice",Toast.LENGTH_SHORT).show();
                     vv_video_learn.setVisibility(View.GONE);
                     int randomVal = (int)(Math.random() * 25);
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         });
         time_started = System.currentTimeMillis();
         sharedPreferences =  this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("mode","learn").apply();
         Intent intent = getIntent();
         if(intent.hasExtra(INTENT_EMAIL) && intent.hasExtra(INTENT_ID)) {
             Toast.makeText(this,"User : " + intent.getStringExtra(INTENT_EMAIL),Toast.LENGTH_SHORT).show();
@@ -227,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 ratingText.setText("Rating:" + i);
                 rating_val = i;
+                sharedPreferences.edit().putInt("rating",rating_val).apply();
             }
 
             @Override
@@ -244,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+        ratingSeek.setVisibility(View.GONE);
+        ratingText.setVisibility(View.GONE);
         finish();
         super.onBackPressed();
     }
