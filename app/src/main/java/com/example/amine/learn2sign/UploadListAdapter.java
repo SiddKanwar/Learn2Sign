@@ -130,7 +130,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
                    //    tv_title.setVisibility(View.GONE);
                    //} else {
 
-                       vv_video.start();
+                       //vv_video.start();
                    }
                // }
             });

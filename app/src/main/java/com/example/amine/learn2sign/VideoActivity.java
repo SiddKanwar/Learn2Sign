@@ -51,7 +51,7 @@ public class VideoActivity extends Activity implements SurfaceHolder.Callback {
     String returnfile;
     VideoActivity activity;
     String word;
-    String groupName="team12";
+    String groupName="team14";
     private boolean mInitSuccesful;
     SharedPreferences sharedPreferences;
     CountDownTimer timer;
