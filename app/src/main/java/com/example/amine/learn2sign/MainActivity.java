@@ -537,6 +537,10 @@ public class MainActivity extends AppCompatActivity {
                     vv_video_learn.setVisibility(View.GONE);
                 }
             }
+            if(sharedPreferences.getString("mode","learn").equalsIgnoreCase("learn")) {
+                ratingSeek.setVisibility(View.GONE);
+                ratingText.setVisibility(View.GONE);
+            }
 
         }
 

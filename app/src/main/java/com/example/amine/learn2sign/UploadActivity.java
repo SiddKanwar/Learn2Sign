@@ -83,6 +83,7 @@ public class UploadActivity extends AppCompatActivity {
                         File file2 = new File(tmpName);
                         if(videos[i].renameTo(file2))
                             System.out.println("Rename successful");
+
                     }
                 }
             }
