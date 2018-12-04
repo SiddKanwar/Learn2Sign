@@ -385,6 +385,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @OnClick(R.id.bt_father)
+    public void send_father_data() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Father clicked");
+        alertDialog.show();
+    }
+
+    @OnClick(R.id.bt_about)
+    public void send_about_data() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("About clicked");
+        alertDialog.show();
+    }
+
     @OnClick(R.id.bt_record)
     public void record_video() {
 
