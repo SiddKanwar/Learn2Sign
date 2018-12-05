@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rb_practice)
     RadioButton rb_practice;
 
+    @BindView(R.id.rb_precision)
+    RadioButton rb_precision;
+
     @BindView(R.id.sp_words)
     Spinner sp_words;
 
@@ -91,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.bt_record)
     Button bt_record;
+
+    @BindView(R.id.bt_father)
+    Button bt_father;
+
+    @BindView(R.id.bt_about)
+    Button bt_about;
 
     @BindView(R.id.bt_send)
     Button bt_send;
@@ -127,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
         rb_learn.setChecked(true);
         bt_cancel.setVisibility(View.GONE);
         bt_send.setVisibility(View.GONE);
-
+        bt_father.setVisibility(View.GONE);
+        bt_about.setVisibility(View.GONE);
         rg_practice_learn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -144,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
                     time_started = System.currentTimeMillis();
                     sp_words.setEnabled(true);
                     sp_ip_address.setEnabled(true);
+                    bt_father.setVisibility(View.GONE);
+                    bt_about.setVisibility(View.GONE);
                 } else if ( checkedId==rb_practice.getId()) {
                     sharedPreferences.edit().putString("mode","practice").apply();
                     Toast.makeText(getApplicationContext(),"Practice",Toast.LENGTH_SHORT).show();
@@ -153,7 +165,27 @@ public class MainActivity extends AppCompatActivity {
                     //sp_words.setMinimumHeight(50);
                     sp_words.setEnabled(false);
                     sp_ip_address.setEnabled(false);
+                    bt_father.setVisibility(View.GONE);
+                    bt_about.setVisibility(View.GONE);
+                } else if ( checkedId==rb_precision.getId()) {
+                    sharedPreferences.edit().putString("mode","precision").apply();
+                    Toast.makeText(getApplicationContext(),"Checking Prescision",Toast.LENGTH_SHORT).show();
+                    int randomVal = (int)(Math.random() * 25);
+                    sp_words.setSelection(randomVal);
+                    //sp_words.setMinimumHeight(50);
+                    vv_video_learn.setVisibility(View.GONE);
+                    bt_record.setVisibility(View.GONE);
+                    sp_words.setEnabled(false);
+                    sp_words.setVisibility(View.GONE);
+                    bt_send.setVisibility(View.GONE);
+                    bt_cancel.setVisibility(View.GONE);
+                    ratingText.setVisibility(View.GONE);
+                    ratingSeek.setVisibility(View.GONE);
+                    sp_ip_address.setEnabled(false);
+                    bt_father.setVisibility(View.VISIBLE);
+                    bt_about.setVisibility(View.VISIBLE);
                 }
+
             }
         });
 
@@ -353,6 +385,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @OnClick(R.id.bt_father)
+    public void send_father_data() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Father clicked");
+        alertDialog.show();
+    }
+
+    @OnClick(R.id.bt_about)
+    public void send_about_data() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("About clicked");
+        alertDialog.show();
+    }
+
     @OnClick(R.id.bt_record)
     public void record_video() {
 
