@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bt_father)
     Button bt_father;
 
+    @BindView(R.id.scores_heading)
+    TextView scores_heading;
+
+    @BindView(R.id.scores_values)
+    TextView scores_values;
+
     @BindView(R.id.bt_about)
     Button bt_about;
 
@@ -139,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
         bt_send.setVisibility(View.GONE);
         bt_father.setVisibility(View.GONE);
         bt_about.setVisibility(View.GONE);
+        scores_heading.setVisibility(View.GONE);
+        scores_values.setVisibility(View.GONE);
         rg_practice_learn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -157,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     sp_ip_address.setEnabled(true);
                     bt_father.setVisibility(View.GONE);
                     bt_about.setVisibility(View.GONE);
+                    scores_heading.setVisibility(View.GONE);
+                    scores_values.setVisibility(View.GONE);
                 } else if ( checkedId==rb_practice.getId()) {
                     sharedPreferences.edit().putString("mode","practice").apply();
                     Toast.makeText(getApplicationContext(),"Practice",Toast.LENGTH_SHORT).show();
@@ -168,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
                     sp_ip_address.setEnabled(false);
                     bt_father.setVisibility(View.GONE);
                     bt_about.setVisibility(View.GONE);
+                    scores_heading.setVisibility(View.GONE);
+                    scores_values.setVisibility(View.GONE);
                 } else if ( checkedId==rb_precision.getId()) {
                     sharedPreferences.edit().putString("mode","precision").apply();
                     Toast.makeText(getApplicationContext(),"Checking Prescision",Toast.LENGTH_SHORT).show();
@@ -182,9 +194,12 @@ public class MainActivity extends AppCompatActivity {
                     bt_cancel.setVisibility(View.GONE);
                     ratingText.setVisibility(View.GONE);
                     ratingSeek.setVisibility(View.GONE);
+                    scores_heading.setVisibility(View.GONE);
+                    scores_values.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(false);
                     bt_father.setVisibility(View.VISIBLE);
                     bt_about.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -390,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.bt_father)
     public void send_father_data() {
         ArrayList<String> filepaths = new ArrayList<String>();
+        ArrayList<String> outputs;
         File sdCardRoot = Environment.getExternalStorageDirectory();
         File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
 
@@ -415,6 +431,11 @@ public class MainActivity extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
+            ClassifierService cc = new ClassifierService();
+            cc.initializeClassifier();
+            outputs = new ArrayList<String>(cc.getPredictionForFiles(filepaths));
+            scores_heading.setVisibility(View.GONE);
+            scores_values.setVisibility(View.GONE);
         }
         catch (Exception ex) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -433,9 +454,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.bt_about)
     public void send_about_data(){
         ArrayList<String> filepaths = new ArrayList<String>();
+        ArrayList<String> outputs;
         File sdCardRoot = Environment.getExternalStorageDirectory();
         File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
-
         String[] paths= yourDir.list();
         try {
 
@@ -458,6 +479,17 @@ public class MainActivity extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
+            ClassifierService cc = new ClassifierService();
+            cc.initializeClassifier();
+            outputs = new ArrayList<String>(cc.getPredictionForFiles(filepaths));
+            scores_heading.setVisibility(View.VISIBLE);
+            scores_values.setVisibility(View.VISIBLE);
+            String values="";
+            for(int i=0;i<outputs.size();i++) {
+                values=values+outputs.get(i)+"\n";
+            }
+            scores_values.setText(values);
+
         }
         catch (Exception ex) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -471,6 +503,7 @@ public class MainActivity extends AppCompatActivity {
             });
             alertDialog.show();
         }
+
 
     }
 
