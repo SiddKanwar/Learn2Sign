@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     vv_video_learn.start();
                     time_started = System.currentTimeMillis();
                     sp_words.setEnabled(true);
+                    sp_words.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(true);
                     bt_father.setVisibility(View.GONE);
                     bt_about.setVisibility(View.GONE);
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     sp_words.setSelection(randomVal);
                     //sp_words.setMinimumHeight(50);
                     sp_words.setEnabled(false);
+                    sp_words.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(false);
                     bt_father.setVisibility(View.GONE);
                     bt_about.setVisibility(View.GONE);
