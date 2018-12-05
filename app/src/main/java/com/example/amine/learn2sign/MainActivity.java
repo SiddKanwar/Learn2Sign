@@ -43,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
@@ -388,16 +389,89 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.bt_father)
     public void send_father_data() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Father clicked");
-        alertDialog.show();
+        ArrayList<String> filepaths = new ArrayList<String>();
+        File sdCardRoot = Environment.getExternalStorageDirectory();
+        File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
+
+        String[] paths= yourDir.list();
+        try {
+
+            if (paths != null) {
+                for (String name : paths) {
+                    if (name.toLowerCase().contains("father")) {
+                        System.out.println(name);
+                        filepaths.add(sdCardRoot+"/Learn2Sign/about_father/"+name);
+                    }
+                }
+            } else {
+                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle("Data Issue");
+                alertDialog.setMessage("Could not find files in folder /Learn2Sign/about_father/ in the root directory");
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        }
+        catch (Exception ex) {
+            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("File Access Issue");
+            alertDialog.setMessage("Issue with files access");
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
     }
 
     @OnClick(R.id.bt_about)
-    public void send_about_data() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("About clicked");
-        alertDialog.show();
+    public void send_about_data(){
+        ArrayList<String> filepaths = new ArrayList<String>();
+        File sdCardRoot = Environment.getExternalStorageDirectory();
+        File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
+
+        String[] paths= yourDir.list();
+        try {
+
+            if (paths != null) {
+                for (String name : paths) {
+                    if (name.toLowerCase().contains("about")) {
+                            System.out.println(name);
+                            filepaths.add(sdCardRoot+"/Learn2Sign/about_father/"+name);
+                    }
+                }
+            } else {
+                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle("Data Issue");
+                alertDialog.setMessage("Could not find files in folder /Learn2Sign/about_father/ in the root directory");
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        }
+        catch (Exception ex) {
+            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("File Access Issue");
+            alertDialog.setMessage("Issue with files");
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
+
     }
 
     @OnClick(R.id.bt_record)
