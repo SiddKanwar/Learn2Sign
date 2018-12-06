@@ -44,11 +44,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
+import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -105,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.scores_values)
     TextView scores_values;
 
-    @BindView(R.id.bt_about)
-    Button bt_about;
+//    @BindView(R.id.bt_about)
+//    Button bt_about;
 
     @BindView(R.id.bt_send)
     Button bt_send;
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         bt_cancel.setVisibility(View.GONE);
         bt_send.setVisibility(View.GONE);
         bt_father.setVisibility(View.GONE);
-        bt_about.setVisibility(View.GONE);
+        //bt_about.setVisibility(View.GONE);
         scores_heading.setVisibility(View.GONE);
         scores_values.setVisibility(View.GONE);
         rg_practice_learn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     sp_words.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(true);
                     bt_father.setVisibility(View.GONE);
-                    bt_about.setVisibility(View.GONE);
+                    //bt_about.setVisibility(View.GONE);
                     scores_heading.setVisibility(View.GONE);
                     scores_values.setVisibility(View.GONE);
                 } else if ( checkedId==rb_practice.getId()) {
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     sp_words.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(false);
                     bt_father.setVisibility(View.GONE);
-                    bt_about.setVisibility(View.GONE);
+                    //bt_about.setVisibility(View.GONE);
                     scores_heading.setVisibility(View.GONE);
                     scores_values.setVisibility(View.GONE);
                 } else if ( checkedId==rb_precision.getId()) {
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                     scores_values.setVisibility(View.GONE);
                     sp_ip_address.setEnabled(false);
                     bt_father.setVisibility(View.VISIBLE);
-                    bt_about.setVisibility(View.VISIBLE);
+                    //bt_about.setVisibility(View.VISIBLE);
 
                 }
 
@@ -412,62 +414,20 @@ public class MainActivity extends AppCompatActivity {
         File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
 
         String[] paths= yourDir.list();
+        List<String> tempList = new ArrayList<String>(Arrays.asList(paths));
+        Collections.shuffle(tempList);
+        int numberOfFiles = paths.length;
+        int testSetLength = (int)(Math.floor(numberOfFiles*0.2));
+
         try {
 
             if (paths != null) {
-                for (String name : paths) {
-                    if (name.toLowerCase().contains("father")) {
+                for (int i=0;i<testSetLength;i++) {
+                    String name = tempList.get(i);
+                    //if (name.toLowerCase().contains("father")) {
                         System.out.println(name);
                         filepaths.add(sdCardRoot+"/Learn2Sign/about_father/"+name);
-                    }
-                }
-            } else {
-                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Data Issue");
-                alertDialog.setMessage("Could not find files in folder /Learn2Sign/about_father/ in the root directory");
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                alertDialog.show();
-            }
-            ClassifierService cc = new ClassifierService();
-            cc.initializeClassifier();
-            outputs = new ArrayList<String>(cc.getPredictionForFiles(filepaths));
-            scores_heading.setVisibility(View.GONE);
-            scores_values.setVisibility(View.GONE);
-        }
-        catch (Exception ex) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("File Access Issue");
-            alertDialog.setMessage("Issue with files access");
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            alertDialog.show();
-        }
-    }
-
-    @OnClick(R.id.bt_about)
-    public void send_about_data(){
-        ArrayList<String> filepaths = new ArrayList<String>();
-        ArrayList<String> outputs;
-        File sdCardRoot = Environment.getExternalStorageDirectory();
-        File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
-        String[] paths= yourDir.list();
-        try {
-
-            if (paths != null) {
-                for (String name : paths) {
-                    if (name.toLowerCase().contains("about")) {
-                            System.out.println(name);
-                            filepaths.add(sdCardRoot+"/Learn2Sign/about_father/"+name);
-                    }
+                    //}
                 }
             } else {
                 final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -488,15 +448,14 @@ public class MainActivity extends AppCompatActivity {
             scores_values.setVisibility(View.VISIBLE);
             String values="";
             for(int i=0;i<outputs.size();i++) {
-                values=values+outputs.get(i)+"\n";
+                values="\t"+values+tempList.get(i)+"\t\t\t"+outputs.get(i)+"\n";
             }
             scores_values.setText(values);
-
         }
         catch (Exception ex) {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("File Access Issue");
-            alertDialog.setMessage("Issue with files");
+            alertDialog.setMessage("Issue with files access");
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -505,9 +464,63 @@ public class MainActivity extends AppCompatActivity {
             });
             alertDialog.show();
         }
-
-
     }
+
+//    @OnClick(R.id.bt_about)
+//    public void send_about_data(){
+//        ArrayList<String> filepaths = new ArrayList<String>();
+//        ArrayList<String> outputs;
+//        File sdCardRoot = Environment.getExternalStorageDirectory();
+//        File yourDir = new File(sdCardRoot+"/Learn2Sign/about_father");
+//        String[] paths= yourDir.list();
+//        try {
+//
+//            if (paths != null) {
+//                for (String name : paths) {
+//                    if (name.toLowerCase().contains("about")) {
+//                            System.out.println(name);
+//                            filepaths.add(sdCardRoot+"/Learn2Sign/about_father/"+name);
+//                    }
+//                }
+//            } else {
+//                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//                alertDialog.setTitle("Data Issue");
+//                alertDialog.setMessage("Could not find files in folder /Learn2Sign/about_father/ in the root directory");
+//                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                alertDialog.show();
+//            }
+//            ClassifierService cc = new ClassifierService();
+//            cc.initializeClassifier();
+//            outputs = new ArrayList<String>(cc.getPredictionForFiles(filepaths));
+//            scores_heading.setVisibility(View.VISIBLE);
+//            scores_values.setVisibility(View.VISIBLE);
+//            String values="";
+//            for(int i=0;i<outputs.size();i++) {
+//                values=values+outputs.get(i)+"\n";
+//            }
+//            scores_values.setText(values);
+//
+//        }
+//        catch (Exception ex) {
+//            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//            alertDialog.setTitle("File Access Issue");
+//            alertDialog.setMessage("Issue with files");
+//            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                }
+//            });
+//            alertDialog.show();
+//        }
+//
+//
+//    }
 
     @OnClick(R.id.bt_record)
     public void record_video() {
